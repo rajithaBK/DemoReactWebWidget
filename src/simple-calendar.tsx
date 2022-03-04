@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { HtmlTagWrapper } from './html-tag-wrapper';
-import {WebexMeetingsWidget} from '@webex/widgets';
-
-import '@webex/widgets/dist/css/webex-widgets.css';
+// @ts-ignore
+ import {WebexMeetingsWidget} from '@webex/widgets';
+//import '@webex/widgets/dist/css/webex-widgets.css';
 
 
 interface SimpleCalendarProps {

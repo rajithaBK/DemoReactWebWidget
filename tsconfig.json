@@ -4,6 +4,11 @@
   "compilerOptions": {
     "lib": ["dom", "es2015"],
     "jsx": "react",
+    "paths": {
+      "zlib": ["../node_modules/browserify-zlib/lib/index.js"]
+    },
+    "skipLibCheck": true,
+    "baseUrl": ".",
     "esModuleInterop": true
   }
 }
