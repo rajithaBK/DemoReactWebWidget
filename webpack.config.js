@@ -1,5 +1,6 @@
 // webpack.base.js
 const path = require('path');
+const webpack = require('webpack');
 
 const nrwlConfig = require("@nrwl/react/plugins/webpack.js");
 
@@ -9,10 +10,17 @@ const config = {
     path: path.resolve(__dirname, './docs'),
     filename: '[name].bundle.js',
   },
+  plugins: [
+    // fix "process is not defined" error:
+    // (do "npm install process" before running the build)
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+  }),
+  ],
   target: 'web',
   devtool: 'source-map',
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.css', '.txt'],
+    extensions: ['.ts', '.tsx', '.js', '.css', '.txt', '.woff', '.woff2'],
     fallback: {
       stream: require.resolve("stream-browserify"),
       crypto: require.resolve("crypto-browserify"),
@@ -20,11 +28,13 @@ const config = {
       http: require.resolve("http-browserify"),
       https: require.resolve("https-browserify"),
       os: require.resolve("os-browserify/browser"),
-      zlib: require.resolve('browserify-zlib'), 
       fs: false,
       zlib: false,
       symlinks: false
     },
+    alias: {
+      process: "process/browser"
+  },
   },
   module: {
     rules: [
@@ -43,12 +53,10 @@ const config = {
       {
         test: /\.s[ac]ss$/i,
         use: [
-          // Creates `style` nodes from JS strings
           "style-loader",
-          // Translates CSS into CommonJS
           "css-loader",
-          // Compiles Sass to CSS
           "sass-loader",
+          "raw-loader"
         ],
       },
       { 
