@@ -1,69 +1,61 @@
-// webpack.base.js
-const path = require('path');
-const webpack = require('webpack');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const PnpWebpackPlugin = require('pnp-webpack-plugin');
+const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
 
-const nrwlConfig = require("@nrwl/react/plugins/webpack.js");
 
-const config = {
-  entry: path.join(__dirname, './src/index.ts'),
+const webpack = require("webpack");
+const smp = new SpeedMeasurePlugin();
+
+module.exports = smp.wrap({
+    entry: path.join(__dirname, './src/index.ts'),
+  target: "web",
+  stats: 'errors-only',
   output: {
-    path: path.resolve(__dirname, './docs'),
-    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, "./docs"),
+    filename: 'bundle.js',
   },
-  plugins: [
-    // fix "process is not defined" error:
-    // (do "npm install process" before running the build)
-    new webpack.ProvidePlugin({
-      process: 'process/browser',
-  }),
-  ],
-  target: 'web',
-  devtool: 'source-map',
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.css', '.txt', '.woff', '.woff2'],
+    extensions: [".js", ".jsx", ".json", ".ts", ".tsx", ".png"],
     fallback: {
-      stream: require.resolve("stream-browserify"),
-      crypto: require.resolve("crypto-browserify"),
-      util: require.resolve("util"),
-      http: require.resolve("http-browserify"),
-      https: require.resolve("https-browserify"),
-      os: require.resolve("os-browserify/browser"),
-      fs: false,
-      zlib: false,
-      symlinks: false
+        stream: require.resolve("stream-browserify"),
+        crypto: require.resolve("crypto-browserify"),
+        util: require.resolve("util"),
+        http: require.resolve("http-browserify"),
+        https: require.resolve("https-browserify"),
+        os: require.resolve("os-browserify/browser"),
+        fs: false,
+        zlib: false,
+        symlinks: false
+      },
+      alias: {
+        process: "process/browser"
     },
-    alias: {
-      process: "process/browser"
-  },
   },
   module: {
     rules: [
       {
-        test: /\.ts$|tsx/,
-        exclude: /node_modules/,
-        include: [path.resolve('src')],
+        test: /\.(ts|tsx)$/, 
         loader: "awesome-typescript-loader",
-        options: {
-          transpileOnly: false,
-          compilerOptions: {
-            module: 'es2015',
-          },
-        },
+        exclude: /node_modules/
       },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"]
+      },  
       {
         test: /\.s[ac]ss$/i,
         use: [
+          // Creates `style` nodes from JS strings
           "style-loader",
+          // Translates CSS into CommonJS
           "css-loader",
+          // Compiles Sass to CSS
           "sass-loader",
-          "raw-loader"
         ],
       },
-      { 
-				test: /\.mjs$/,
-				include: /node_modules/,
-				type: 'javascript/auto'
-			},
       {
         test: /\.eot(\?v=\d+.\d+.\d+)?$/,
         loader: 'url-loader',
@@ -80,17 +72,27 @@ const config = {
         test: /\.svg(\?v=\d+.\d+.\d+)?$/,
         loader: 'url-loader',
       },
-      { test: /\.(jpe?g|png|gif)$/i, loader: 'file-loader' },
+      // { test: /\.(jpe?g|png|gif)$/i, loader: 'file-loader' },
+      {test: /\.(jpe?g|png|gif|svg)$/i, loader: "file-loader"},
+
       { test: /\.ico$/, loader: 'file-loader' },
-      { test: /\.(png|woff(2)?|eot|ttf|svg)(\?[a-z0-9=.]+)?$/, loader: 'url-loader' },
     ],
   },
-  
-};
+  devServer: {
+    contentBase: path.join(__dirname, './docs'),
+    publicPath: '/',
+    historyApiFallback: true,
 
-
-module.exports = config;
-// module.exports = (config) => {
-//   // first call it so that @nrwl/react plugin adds its configs
-//   nrwlConfig(config);
-// };
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')}),
+    new HtmlWebpackPlugin({
+      path: path.resolve(__dirname, "./docs"),
+      template: path.resolve(__dirname, "src", "index.html"),
+    }),
+    new webpack.ProvidePlugin({
+      process: path.resolve(path.join(__dirname, "node_modules/process/browser")),
+    }),
+  ],
+});

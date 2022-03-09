@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "homepage": "http://rajithaBK.github.io/DemoReactWebWidget",
   "dependencies": {
     "@babel/core": "^7.4.5",
     "@babel/polyfill": "^7.12.1",
@@ -10,6 +11,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "@webex/internal-plugin-locus": "^1.156.0",
     "@webex/widgets": "^1.20.6",
     "contentful": "^9.1.12",
     "core-js": "^3.21.1",
@@ -22,6 +24,7 @@
     "https-browserify": "^1.0.0",
     "os-browserify": "^0.3.0",
     "path": "^0.12.7",
+    "pnp-webpack-plugin": "^1.7.0",
     "qs": "^6.10.1",
     "query-string": "^7.0.1",
     "raw-loader": "^4.0.2",
@@ -33,14 +36,18 @@
     "style-loader": "^2.0.0",
     "url-loader": "^4.1.1",
     "web-vitals": "^1.0.1",
-    "webex": "^1.150.0"
+    "webex": "^1.150.0",
+    "webpack-cli": "^4.9.2"
   },
   "resolutions": {
     "react-error-overlay": "6.0.9"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d docs",
     "start": "live-server docs/",
-    "build": "webpack --config webpack.config.js"
+    "build": "webpack --config webpack.config.js",
+    "serve": "serve docs/"
   },
   "keywords": [],
   "author": "",
@@ -62,7 +69,6 @@
     "ts-loader": "^7.0.3",
     "typescript": "^3.8.3",
     "webpack": "^5.70.0",
-    "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2"
   },
