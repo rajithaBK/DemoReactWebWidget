@@ -23,6 +23,7 @@ function SimpleCalendar(props) {
     <div className="WebexMeeting">
         { 
             <WebexMeetingsWidget
+            style={{width: "1000px", height: "500px"}}
             accessToken= {accesstoken}
             meetingDestination= {destination}
           />
