@@ -45,5 +45,11 @@ declare const window: any;
 
 // window.webex.meetingWidget = renderWidget;
 
-window.someFunction = function () {
+const renderWidget = (options) => {
+    console.log("received params", options);
+    ReactDOM.render(React.createElement(MeetingWidget, options), document.querySelector("#simple-calendar"));
 }
+
+if (!window.webexMeetingWidget) { // this is how you inject an object
+    window.webexMeetingWidget = renderWidget;
+  }

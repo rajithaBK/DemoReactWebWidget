@@ -4,7 +4,7 @@ const path = require('path');
 const nrwlConfig = require("@nrwl/react/plugins/webpack.js");
 
 module.exports = ({ config }) => {
-  config.entry.push(path.join(__dirname, './src/index.ts'));
+  config.entry.push(path.join(__dirname, './src/index.tsx'));
   config.output.path.push(path.resolve(__dirname, './docs'));
   config.output.filename.push('simple-calendar.js');
   config.target.push('web');

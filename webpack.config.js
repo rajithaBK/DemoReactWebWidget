@@ -10,7 +10,7 @@ const webpack = require("webpack");
 const smp = new SpeedMeasurePlugin();
 
 module.exports = smp.wrap({
-    entry: path.join(__dirname, './src/index.ts'),
+    entry: path.join(__dirname, './src/index.tsx'),
   target: "web",
   stats: 'errors-only',
   output: {
@@ -94,11 +94,8 @@ module.exports = smp.wrap({
       path: path.resolve(__dirname, "./docs"),
       template: path.resolve(__dirname, "src", "index.html"),
     }),
-    // new webpack.ProvidePlugin({
-    //   process: path.resolve(path.join(__dirname, "node_modules/process/browser")),
-    // }),
     new webpack.ProvidePlugin({
-      _: 'lodash',
+      process: path.resolve(path.join(__dirname, "node_modules/process/browser")),
     }),
   ],
 });

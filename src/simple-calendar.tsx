@@ -12,19 +12,19 @@ interface SimpleCalendarProps {
   destination?: String;
 }
 
-function SimpleCalendar(props: SimpleCalendarProps) {
+function SimpleCalendar(props) {
   console.log('props',props);
   const  accesstoken  = props.accesstoken;
   const destination =props.destination;
   console.log('accesstoken',accesstoken);
-
+  console.log('destination',destination);
   return (
     
     <div className="WebexMeeting">
         { 
             <WebexMeetingsWidget
-            accessToken={accesstoken}
-            meetingDestination={destination}
+            accessToken= {accesstoken}
+            meetingDestination= {destination}
           />
         }
     </div>
