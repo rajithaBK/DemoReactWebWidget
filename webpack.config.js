@@ -17,6 +17,9 @@ module.exports = smp.wrap({
     path: path.resolve(__dirname, "./docs"),
     filename: 'bundle.js',
   },
+  node: {
+    global: true
+  },
   resolve: {
     extensions: [".js", ".jsx", ".json", ".ts", ".tsx", ".png"],
     fallback: {
@@ -91,8 +94,11 @@ module.exports = smp.wrap({
       path: path.resolve(__dirname, "./docs"),
       template: path.resolve(__dirname, "src", "index.html"),
     }),
+    // new webpack.ProvidePlugin({
+    //   process: path.resolve(path.join(__dirname, "node_modules/process/browser")),
+    // }),
     new webpack.ProvidePlugin({
-      process: path.resolve(path.join(__dirname, "node_modules/process/browser")),
+      _: 'lodash',
     }),
   ],
 });

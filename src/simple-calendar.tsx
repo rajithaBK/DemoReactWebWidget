@@ -13,8 +13,9 @@ interface SimpleCalendarProps {
 }
 
 function SimpleCalendar(props: SimpleCalendarProps) {
-  const { accesstoken } = props;
-  const {destination} =props;
+  console.log('props',props);
+  const  accesstoken  = props.accesstoken;
+  const destination =props.destination;
   console.log('accesstoken',accesstoken);
 
   return (
@@ -30,4 +31,4 @@ function SimpleCalendar(props: SimpleCalendarProps) {
   );
 }
 
-export { SimpleCalendar };
+export default SimpleCalendar ;
